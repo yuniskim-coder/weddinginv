@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>모바일 청첩장</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    
+    <!-- 카카오맵 API 스크립트. `autoload=false`를 추가하여 수동으로 로드합니다. -->
+    <script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=cf4fb313437db147c876437376a2832e&autoload=false"></script>
+</head>
+<body class="antialiased text-gray-800">
+
+    <!-- 배경음악 -->
+    <audio id="background-music" loop>
+        <source src="assets/audio/Purple Desire - The Grey Room _ Clark Sims.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <!-- 떨어지는 꽃잎 애니메이션 컨테이너 -->
+    <div id="petals-container"></div>
+
+    <!-- 히어로 영역 -->
+    <section class="relative w-full h-screen flex items-center justify-center text-center overflow-hidden">
+        <img src="assets/images/img11.jpg" alt="결혼식 사진" class="absolute inset-0 w-full h-full object-cover">
+        <div class="relative z-10 p-6 bg-black bg-opacity-30 rounded-lg mx-4">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-4 tracking-wide">
+                Wedding Invitation
+            </h1>
+            <p class="text-xl md:text-2xl text-gray-200">
+                2025년 09월 25일
+            </p>
+        </div>
+    </section>
+    
+    <!-- About 영역 -->
+    <section class="py-16 md:py-24 px-4 bg-white">
+        <div class="max-w-3xl mx-auto text-center">
+            <h2 class="text-3xl font-bold mb-6 text-gray-800">저희의 시작을 축복해주세요</h2>
+            <p class="text-lg leading-relaxed text-gray-600 mb-8">
+                서로 다른 길을 걸어오던 두 사람이 하나의 길 위에서 만났습니다. 
+                따스한 시선으로 서로를 바라보며 영원히 함께할 것을 약속합니다. 
+                저희의 새로운 시작을 함께 축복해주시면 감사하겠습니다.
+            </p>
+            <div class="text-center font-semibold text-lg text-gray-700">
+                <p class="mb-2">김도형 &amp; 박소은</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 두 번째 사진 영역 -->
+    <section class="w-full">
+        <img src="assets/images/img12.jpg" alt="결혼식 사진 2" class="w-full h-auto object-cover">
+    </section>
+
+    <!-- 캘린더 영역 -->
+    <section class="py-16 px-4 bg-white text-center">
+        <div class="max-w-lg mx-auto">
+            <h2 class="text-3xl font-bold mb-6 text-gray-800">결혼식 날짜</h2>
+            <div id="calendar-container" class="bg-gray-50 p-4 rounded-lg shadow-inner">
+                <div class="flex justify-between items-center mb-4 text-xl font-bold">
+                    <span id="calendar-month-year"></span>
+                </div>
+                <div class="calendar-grid text-gray-600 font-medium day-label">
+                    <span>일</span><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span>
+                </div>
+                <div id="calendar-days" class="calendar-grid text-gray-900 font-semibold">
+                    <!-- 날짜가 여기에 동적으로 생성됩니다 -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 갤러리 영역 -->
+    <section class="py-16 px-4 bg-gray-100">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl font-bold text-center mb-8 text-gray-800">갤러리</h2>
+            <div class="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-3 gap-2">
+                <img src="assets/images/img01.jpeg" alt="갤러리 사진 1" class="gallery-item w-full h-48 sm:h-56 md:h-64 object-cover rounded-lg shadow cursor-pointer">
+                <img src="assets/images/img02.jpg" alt="갤러리 사진 2" class="gallery-item w-full h-48 sm:h-56 md:h-64 object-cover rounded-lg shadow cursor-pointer">
+                <img src="assets/images/img03.jpeg" alt="갤러리 사진 3" class="gallery-item w-full h-48 sm:h-56 md:h-64 object-cover rounded-lg shadow cursor-pointer">
+                <img src="assets/images/img04.jpg" alt="갤러리 사진 4" class="gallery-item w-full h-48 sm:h-56 md:h-64 object-cover rounded-lg shadow cursor-pointer">
+                <img src="assets/images/img05.jpg" alt="갤러리 사진 5" class="gallery-item w-full h-48 sm:h-56 md:h-64 object-cover rounded-lg shadow cursor-pointer">
+                <img src="assets/images/img06.avif" alt="갤러리 사진 6" class="gallery-item w-full h-48 sm:h-56 md:h-64 object-cover rounded-lg shadow cursor-pointer">
+                <img src="assets/images/img14.jpg" alt="갤러리 사진 7" class="gallery-item w-full h-48 sm:h-56 md:h-64 object-cover rounded-lg shadow cursor-pointer">
+                <img src="assets/images/img13.jpg" alt="갤러리 사진 8" class="gallery-item w-full h-48 sm:h-56 md:h-64 object-cover rounded-lg shadow cursor-pointer">
+                <img src="assets/images/img09.jpeg" alt="갤러리 사진 9" class="gallery-item w-full h-48 sm:h-56 md:h-64 object-cover rounded-lg shadow cursor-pointer">
+            </div>
+        </div>
+    </section>
+
+    <!-- 지도 영역 -->
+    <section class="py-16 px-4 bg-white text-center">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl font-bold mb-6 text-gray-800">오시는 길</h2>
+            <div class="bg-gray-50 p-4 rounded-lg mb-4">
+                <h3 class="font-semibold text-lg mb-2">김채원 웨딩홀</h3>
+                <p class="text-gray-600">서울특별시 은평구 통일로 684</p>
+                <p class="text-gray-600 text-sm mt-1">지하철: 구파발역 1번 출구 도보 5분</p>
+            </div>
+            <div id="kakaoMap" class="w-full h-96 rounded-lg shadow-lg mb-4"></div>
+            <div class="flex justify-center space-x-4">
+                <button class="bg-yellow-400 hover:bg-yellow-500 text-gray-800 font-semibold py-2 px-4 rounded-lg transition duration-200">
+                    카카오맵으로 보기
+                </button>
+                <button class="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-200">
+                    네이버맵으로 보기
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 연락처 영역 -->
+    <section class="py-16 px-4 bg-gray-100">
+        <div class="max-w-2xl mx-auto text-center">
+            <h2 class="text-3xl font-bold mb-8 text-gray-800">연락처</h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- 신랑측 -->
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="text-xl font-semibold mb-4 text-gray-800">신랑측</h3>
+                    <div class="space-y-2">
+                        <div class="flex justify-between items-center">
+                            <span>김도형 (신랑)</span>
+                            <a href="tel:010-1234-5678" class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm transition duration-200">
+                                전화걸기
+                            </a>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span>김아버지 (부)</span>
+                            <a href="tel:010-1111-2222" class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm transition duration-200">
+                                전화걸기
+                            </a>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span>김어머니 (모)</span>
+                            <a href="tel:010-3333-4444" class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm transition duration-200">
+                                전화걸기
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 신부측 -->
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="text-xl font-semibold mb-4 text-gray-800">신부측</h3>
+                    <div class="space-y-2">
+                        <div class="flex justify-between items-center">
+                            <span>박소은 (신부)</span>
+                            <a href="tel:010-5678-9012" class="bg-pink-500 hover:bg-pink-600 text-white px-3 py-1 rounded text-sm transition duration-200">
+                                전화걸기
+                            </a>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span>박아버지 (부)</span>
+                            <a href="tel:010-5555-6666" class="bg-pink-500 hover:bg-pink-600 text-white px-3 py-1 rounded text-sm transition duration-200">
+                                전화걸기
+                            </a>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span>박어머니 (모)</span>
+                            <a href="tel:010-7777-8888" class="bg-pink-500 hover:bg-pink-600 text-white px-3 py-1 rounded text-sm transition duration-200">
+                                전화걸기
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 공유 및 하단 영역 -->
+    <section class="py-12 px-4 bg-white text-center border-t border-gray-200">
+        <div class="max-w-lg mx-auto">
+            <h3 class="text-xl font-semibold mb-4 text-gray-800">청첩장 공유하기</h3>
+            <div class="flex justify-center space-x-4 mb-6">
+                <button id="share-kakao" class="bg-yellow-400 hover:bg-yellow-500 text-gray-800 font-semibold py-2 px-4 rounded-lg transition duration-200">
+                    카카오톡
+                </button>
+                <button id="copy-url" class="bg-gray-600 hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-200">
+                    링크 복사
+                </button>
+                <button id="toggle-petals" class="bg-pink-500 hover:bg-pink-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-200">
+                    🌸 꽃잎 ON/OFF
+                </button>
+                <button id="toggle-music" class="bg-purple-500 hover:bg-purple-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-200">
+                    🎵 음악 ON
+                </button>
+            </div>
+            <p class="text-sm text-gray-500 mb-2">소중한 마음으로 참석해주시는 모든 분들께 감사드립니다.</p>
+            <p class="text-xs text-gray-400">김도형 ♥ 박소은</p>
+        </div>
+    </section>
+
+    <!-- 이미지 모달창 -->
+    <div id="image-modal" class="image-modal hidden">
+        <span class="image-modal-close-btn">&times;</span>
+        <img class="image-modal-content" id="modal-image">
+    </div>
+    
+    <script src="assets/js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,219 @@
+/* Google Fonts - Noto Serif KR */
+@import url('https://www.google.com/search?q=https://fonts.googleapis.com/css2%3Ffamily%3DNoto%2BSerif%2BKR:wght%40300%3B400%3B500%3B600%3B700%26display%3Dswap');
+
+body {
+font-family: 'Noto Serif KR', serif;
+color: #333;
+background-color: #f7f7f7;
+}
+
+.calendar-grid {
+display: grid;
+grid-template-columns: repeat(7, minmax(0, 1fr));
+gap: 0.5rem;
+}
+
+.day-label {
+font-size: 0.8rem;
+color: #6b7280;
+}
+
+.day-cell {
+padding: 0.5rem;
+text-align: center;
+}
+
+.wedding-day {
+background-color: #fca5a5;
+color: white;
+font-weight: bold;
+border-radius: 9999px; /* Tailwind's rounded-full */
+}
+
+/* 이미지 모달 스타일 */
+.image-modal {
+position: fixed;
+z-index: 1000;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background-color: rgba(0, 0, 0, 0.9);
+display: flex;
+align-items: center;
+justify-content: center;
+}
+
+.image-modal-content {
+max-width: 90%;
+max-height: 90%;
+object-fit: contain;
+border-radius: 8px;
+box-shadow: 0 10px 50px rgba(0, 0, 0, 0.5);
+}
+
+.image-modal-close-btn {
+position: absolute;
+top: 20px;
+right: 35px;
+color: #ffffff;
+font-size: 40px;
+font-weight: bold;
+cursor: pointer;
+z-index: 1001;
+transition: color 0.3s ease;
+}
+
+.image-modal-close-btn:hover {
+color: #fca5a5;
+}
+
+/* 반응형 개선 */
+@media (max-width: 768px) {
+.calendar-grid {
+    gap: 0.25rem;
+}
+
+.day-cell {
+    padding: 0.25rem;
+    font-size: 0.875rem;
+}
+
+.gallery-item {
+    height: 120px;
+    object-fit: cover;
+}
+
+.image-modal-close-btn {
+    top: 10px;
+    right: 15px;
+    font-size: 30px;
+}
+
+/* 모바일에서 꽃잎 크기 조절 */
+.petal {
+    font-size: 16px !important;
+    opacity: 0.5;
+}
+
+/* 모바일에서 애니메이션 간소화 */
+@keyframes fallSimple {
+    0% {
+        transform: translateY(-100vh) rotate(0deg);
+        opacity: 0.5;
+    }
+    100% {
+        transform: translateY(100vh) rotate(180deg);
+        opacity: 0;
+    }
+}
+}
+
+/* 스크롤 애니메이션 */
+@keyframes fadeInUp {
+from {
+    opacity: 0;
+    transform: translateY(30px);
+}
+to {
+    opacity: 1;
+    transform: translateY(0);
+}
+}
+
+.animate-on-scroll {
+animation: fadeInUp 0.6s ease-out;
+}
+
+/* 떨어지는 꽃잎 애니메이션 */
+#petals-container {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+pointer-events: none;
+z-index: 1;
+overflow: hidden;
+}
+
+.petal {
+position: absolute;
+color: #fca5a5;
+font-size: 20px;
+user-select: none;
+pointer-events: none;
+opacity: 0.7;
+animation-timing-function: linear;
+animation-iteration-count: infinite;
+}
+
+.petal.heart::before {
+content: '♥';
+}
+
+.petal.flower::before {
+content: '🌸';
+}
+
+.petal.rose::before {
+content: '🌹';
+}
+
+.petal.sparkle::before {
+content: '✨';
+}
+
+/* 떨어지는 애니메이션 키프레임 */
+@keyframes fall {
+0% {
+    transform: translateY(-100vh) rotate(0deg);
+    opacity: 0.7;
+}
+100% {
+    transform: translateY(100vh) rotate(360deg);
+    opacity: 0;
+}
+}
+
+@keyframes fallWithSway {
+0% {
+    transform: translateY(-100vh) translateX(0px) rotate(0deg);
+    opacity: 0.7;
+}
+25% {
+    transform: translateY(25vh) translateX(100px) rotate(90deg);
+}
+50% {
+    transform: translateY(50vh) translateX(0px) rotate(180deg);
+}
+75% {
+    transform: translateY(75vh) translateX(-100px) rotate(270deg);
+}
+100% {
+    transform: translateY(100vh) translateX(0px) rotate(360deg);
+    opacity: 0;
+}
+}
+
+@keyframes fallLeft {
+0% {
+    transform: translateY(-100vh) translateX(100px) rotate(0deg);
+    opacity: 0.7;
+}
+100% {
+    transform: translateY(100vh) translateX(-100px) rotate(315deg);
+    opacity: 0;
+}
+}
+
+@keyframes fallRight {
+0% {
+    transform: translateY(-100vh) translateX(-100px) rotate(0deg);
+    opacity: 0.7;
+}
+100% {
+    transform: translateY(100vh) translateX(100px) rotate(315deg);
+    opacity: 0;
+}
+}
