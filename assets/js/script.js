@@ -41,19 +41,40 @@ function initMap() {
         level: 4
     };
     var map = new kakao.maps.Map(mapContainer, mapOption);
-    var imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png';
-    var imageSize = new kakao.maps.Size(64, 69);
-    var imageOption = {offset: new kakao.maps.Point(27, 69)};
     
-    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
+    // 커스텀 마커 (핑크 하트 이모지)
     var markerPosition = new kakao.maps.LatLng(37.595599, 126.668371);
     
-    var marker = new kakao.maps.Marker({
+    // HTML을 이용한 커스텀 오버레이
+    var content = '<div style="' +
+        'background: white; ' +
+        'border: 3px solid #ec4899; ' +
+        'border-radius: 50%; ' +
+        'width: 60px; ' +
+        'height: 60px; ' +
+        'display: flex; ' +
+        'align-items: center; ' +
+        'justify-content: center; ' +
+        'font-size: 30px; ' +
+        'box-shadow: 0 4px 8px rgba(0,0,0,0.2); ' +
+        'cursor: pointer; ' +
+        'animation: pulse 2s infinite;' +
+        '">🩷</div>' +
+        '<style>' +
+        '@keyframes pulse { ' +
+        '0% { transform: scale(1); } ' +
+        '50% { transform: scale(1.1); } ' +
+        '100% { transform: scale(1); } ' +
+        '}' +
+        '</style>';
+    
+    var customOverlay = new kakao.maps.CustomOverlay({
         position: markerPosition,
-        image: markerImage
+        content: content,
+        yAnchor: 1
     });
     
-    marker.setMap(map);
+    customOverlay.setMap(map);
 }
 
 // 카운트다운 기능
