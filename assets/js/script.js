@@ -1,6 +1,6 @@
 // 캘린더 생성
 function generateCalendar() {
-    const date = new Date(2025, 8, 25); // 2025년 9월 (월은 0부터 시작하므로 8)
+    const date = new Date(2025, 9, 11); // 2025년 10월 (월은 0부터 시작하므로 9)
     const year = date.getFullYear();
     const month = date.getMonth();
     const day = date.getDate();
@@ -56,13 +56,58 @@ function initMap() {
     marker.setMap(map);
 }
 
+// 카운트다운 기능
+function initCountdown() {
+    // 결혼식 날짜와 시간 설정 (2025년 10월 11일 오후 1시)
+    const weddingDate = new Date('2025-10-11T13:00:00');
+    
+    function updateCountdown() {
+        const now = new Date();
+        const difference = weddingDate - now;
+        
+        // 이미 지난 날짜인 경우
+        if (difference <= 0) {
+            document.getElementById('days').textContent = '0';
+            document.getElementById('hours').textContent = '0';
+            document.getElementById('minutes').textContent = '0';
+            document.getElementById('seconds').textContent = '0';
+            
+            // 카운트다운 멈춤 및 축하 메시지 표시
+            clearInterval(countdownInterval);
+            const countdownTitle = document.querySelector('#countdown').previousElementSibling;
+            countdownTitle.textContent = '축하합니다! 🎉';
+            return;
+        }
+        
+        // 시간 계산
+        const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+        
+        // 화면에 표시
+        document.getElementById('days').textContent = days;
+        document.getElementById('hours').textContent = hours;
+        document.getElementById('minutes').textContent = minutes;
+        document.getElementById('seconds').textContent = seconds;
+    }
+    
+    // 초기 실행
+    updateCountdown();
+    
+    // 1초마다 업데이트
+    const countdownInterval = setInterval(updateCountdown, 1000);
+}
+
 // 페이지 로드 후 캘린더 생성 및 갤러리 초기화
 window.onload = function() {
     generateCalendar();
     setupGallery();
     setupShareFeatures();
+    setupAccountFeatures();
     setupMapButtons();
     setupScrollAnimation();
+    initCountdown();
     
     // 꽃잎 애니메이션 시작
     petalAnimation = new PetalAnimation();
@@ -164,6 +209,80 @@ function setupShareFeatures() {
         // 음량 설정 (50%)
         backgroundMusic.volume = 0.5;
     }
+}
+
+// 계좌번호 토글 기능
+function setupAccountFeatures() {
+    const groomAccountBtn = document.getElementById('groom-account-btn');
+    const brideAccountBtn = document.getElementById('bride-account-btn');
+    const groomAccountInfo = document.getElementById('groom-account-info');
+    const brideAccountInfo = document.getElementById('bride-account-info');
+    const copyAccountBtns = document.querySelectorAll('.copy-account-btn');
+
+    // 신랑측 계좌번호 토글
+    if (groomAccountBtn && groomAccountInfo) {
+        groomAccountBtn.addEventListener('click', function() {
+            if (groomAccountInfo.classList.contains('hidden')) {
+                groomAccountInfo.classList.remove('hidden');
+                groomAccountBtn.textContent = '계좌번호 숨기기';
+                groomAccountBtn.classList.remove('bg-blue-500', 'hover:bg-blue-600');
+                groomAccountBtn.classList.add('bg-gray-500', 'hover:bg-gray-600');
+            } else {
+                groomAccountInfo.classList.add('hidden');
+                groomAccountBtn.textContent = '계좌번호 보기';
+                groomAccountBtn.classList.remove('bg-gray-500', 'hover:bg-gray-600');
+                groomAccountBtn.classList.add('bg-blue-500', 'hover:bg-blue-600');
+            }
+        });
+    }
+
+    // 신부측 계좌번호 토글
+    if (brideAccountBtn && brideAccountInfo) {
+        brideAccountBtn.addEventListener('click', function() {
+            if (brideAccountInfo.classList.contains('hidden')) {
+                brideAccountInfo.classList.remove('hidden');
+                brideAccountBtn.textContent = '계좌번호 숨기기';
+                brideAccountBtn.classList.remove('bg-pink-500', 'hover:bg-pink-600');
+                brideAccountBtn.classList.add('bg-gray-500', 'hover:bg-gray-600');
+            } else {
+                brideAccountInfo.classList.add('hidden');
+                brideAccountBtn.textContent = '계좌번호 보기';
+                brideAccountBtn.classList.remove('bg-gray-500', 'hover:bg-gray-600');
+                brideAccountBtn.classList.add('bg-pink-500', 'hover:bg-pink-600');
+            }
+        });
+    }
+
+    // 계좌번호 복사 기능
+    copyAccountBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const accountNumber = this.getAttribute('data-account');
+            
+            navigator.clipboard.writeText(accountNumber).then(function() {
+                btn.textContent = '복사완료!';
+                btn.classList.add('bg-green-200');
+                setTimeout(() => {
+                    btn.textContent = '복사하기';
+                    btn.classList.remove('bg-green-200');
+                }, 2000);
+            }).catch(function() {
+                // 폴백: 텍스트 선택 방식
+                const textArea = document.createElement('textarea');
+                textArea.value = accountNumber;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                
+                btn.textContent = '복사완료!';
+                btn.classList.add('bg-green-200');
+                setTimeout(() => {
+                    btn.textContent = '복사하기';
+                    btn.classList.remove('bg-green-200');
+                }, 2000);
+            });
+        });
+    });
 }
 
 // 지도 버튼 기능
